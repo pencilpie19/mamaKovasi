@@ -1,0 +1,168 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %} {{ product.name }} / Mama Kovası {% endblock %}
+{% block body %}
+    <!--Section: Block Content-->
+    <section class="mb-5 ">
+
+        <div class="row">
+
+            <div class="col-md-6 mb-4 mb-md-0">
+
+                <div id="mdb-lightbox-ui"></div>
+
+                <div class="mdb-lightbox">
+
+                    <div class="row product-gallery mx-1">
+
+                        <div class="col-12 mb-0">
+                            <figure class="view overlay rounded z-depth-1 main-img zoom ">
+                                <img src="{{product.file.url}}" class="img-fluid z-depth-0 ">
+                                </a>
+                            </figure>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-md-6  px-4 pt-1 ">
+
+                <h5><strong> {{ product.name }} </strong></h5>
+
+                <p class="mb-2 text-muted text-uppercase small">Fiyat</p>
+
+                <p><span class="mr-1 price-detail"><strong>₺{{ product.price|floatformat:"0.00" }}</strong></span></p>
+
+                <p class="pt-1">{{ product.detail|safe|truncatechars:300 }} <a href="#continue">devamı</a></p>
+
+                <div class="table-responsive">
+                    <table class="table table-sm table-borderless mb-0">
+                        <tbody>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Marka</strong></th>
+                            <td>{{ product.brand }}</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Hayvan</strong></th>
+                            <td>{{ product.category.pet }}</td>
+                        </tr>
+                        <tr>
+                            <th class="pl-0 w-25" scope="row"><strong>Kilogram</strong></th>
+                            <td>{{ product.weight }} Kg</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+
+                <button type="button" class="btn btn-orange btn-md mr-1 mb-2" data-toggle="modal"
+                        data-target="#centralModalDanger">Satın Al
+                </button>
+
+                <!-- MODAL -->
+                <div class="modal fade" id="centralModalDanger" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-notify modal-info" role="document">
+                        <!--Content-->
+                        <div class="modal-content">
+                            <!--Header-->
+                            <div class="modal-header">
+                                <p class="heading lead">SATIN AL</p>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" class="white-text">&times;</span>
+                                </button>
+                            </div>
+
+                            <!--Body-->
+                            <div class="modal-body">
+                                <div class="text-center">
+                                    <i class="fas fa-phone-volume fa-4x mb-3 animated rotateIn"></i>
+                                    <p>Alışverişlerinizi Whatsapp üzerinde bizlere iletebilirsiniz!</p>
+                                </div>
+                            </div>
+
+                            <!--Footer-->
+                            <div class="modal-footer justify-content-center">
+                                <a type="button" class="btn btn-primary"> 0312 358 45 78 <i
+                                        class="far fa-gem ml-1 text-white"></i></a>
+                                <a type="button" class="btn btn-outline-danger waves-effect"
+                                   data-dismiss="modal">Vazgeç</a>
+                            </div>
+                        </div>
+                        <!--/.Content-->
+                    </div>
+                </div>
+                <!-- MODAL END-->
+            </div>
+        </div>
+
+    </section>
+    <!--Section: Block Content-->
+
+    <!-- Classic tabs -->
+    <div class="classic-tabs border rounded px-4 pt-1 margin-bottom35">
+
+        <ul class="nav tabs-primary nav-justified" id="advancedTab" role="tablist">
+            <li class="nav-item">
+                <p class="nav-link textOrange" id="continue"><strong>ÜRÜN AÇIKLAMASI</strong></p>
+                <hr>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
+                <h4><strong> {{ product.name }} </strong></h4>
+                <p class="small text-muted text-uppercase mb-2">{{ product.brand }}</p>
+
+                <p class="pt-1">{{ product.detail|safe }}</p>
+
+            </div>
+        </div>
+
+    </div>
+    <!-- Classic tabs -->
+
+    <!--RELATED PRODUCTS DESKTOP-->
+    <div class="classic-tabs border rounded px-4 pt-1 d-none d-sm-block">
+        <ul class="nav tabs-primary nav-justified" id="advancedTab" role="tablist">
+            <li class="nav-item">
+                <p class="nav-link textOrange"><strong>İLGİLENEBİLECEĞİNİZ DİĞER ÜRÜNLER</strong></p>
+                <hr>
+            </li>
+        </ul>
+        {% if product.get_related_products|length > 0 %}
+
+            <div class="row">
+                {% for pro in product.get_related_products %}
+                    <div class="col-md-3">
+                        <div class="card card-blog">
+                            <a href="{% url "detail" pro.id %}">
+                                    <div class="card-image">
+                                    <img src="{{ pro.file.url }}">
+                                    <div class="ripple-cont"></div>
+                                </div>
+                            </a>
+                            <div class="table">
+                                <h6 class="category textOrange">{{ pro.brand }}</h6>
+                                <p class="card-p"> {{ pro.name|truncatechars:43 }}</p>
+                            </div>
+                            <button class="btn btn-orange f-left" onclick="location.href='{% url "detail" pro.id %}';">
+                                Detay
+                            </button>
+                            <span class="price f-right price-margin"> ₺{{ pro.price }} </span>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+            <!--RELATED PRODUCTS DESKTOP END-->
+
+        {% else %}
+            <h5 class="text-center">Bu ürüne benzer başka bir ürün bulunamadı.</h5>
+
+        {% endif %}
+
+    </div>
+{% endblock %}

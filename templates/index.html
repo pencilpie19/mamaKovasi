@@ -1,0 +1,247 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block title %} Mama Kovası{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            var $window = $(this)
+            $('.cateBut').click(function (e) {
+                e.preventDefault()
+
+                var $this = $(this)
+                if ($this.hasClass("collapsed")) {
+                    $.each($('.cateBut'), function (i, bt) {
+                        if (bt.id != $this.attr("id")) {
+                            //BU REZİLLİĞİ GÖRMEZDEN GELİN
+                            var $ajb = $('#' + bt.id)
+                            $ajb.addClass("collapsed")
+                            var $div = $ajb.parent().parent().parent()
+                            var $mev = $div.find(".cateDiv")
+                            console.log($mev)
+                            $mev.removeClass("show")
+                        }
+                    })
+                }
+            })
+        })
+    </script>
+{% endblock %}
+{% block justIndex %}
+    <!--Slider-->
+    <div id="carousel-example-2" class="carousel slide carousel-fade" data-ride="carousel">
+
+        <ol class="carousel-indicators">
+            <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
+            <li data-target="#carousel-example-2" data-slide-to="1"></li>
+            <li data-target="#carousel-example-2" data-slide-to="2"></li>
+        </ol>
+
+        <div class="carousel-inner" role="listbox">
+            {% for cover in covers %}
+                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                    <div class="view">
+                        <img class="d-block w-100" src="{{ cover.file.url }}" alt="First slide">
+                        <div class="mask rgba-black-light"></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!--/.Slider-->
+{% endblock %}
+{% block body %}
+    <!--CARDS AND CATEGORIES DESKTOP-->
+    {% if messages %}
+        <div class="row">
+            <div class="messages col-xl-12 col-md-12 col-sm-12">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    <div class="d-none d-sm-block">
+        <div class="row">
+
+            <!--Categories-->
+            <div class="col-md-3">
+                <h4> <img class="ctg-svg" src="{% static 'img/svg/sefa.svg' %}"> Kategoriler</h4>
+                <hr>
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    {% for pet in pets %}
+                        <div class="panel panel-default">
+                            <div class="panel-heading" role="tab" id="heading{{ forloop.counter }}">
+                                <h4 class="panel-title">
+                                    <a class="cateBut collapsed" id="{{ pet.id }}" role="button" data-toggle="collapse"
+                                       data-parent="#accordion" href="#collapse{{ forloop.counter }}"
+                                       aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                                        <img src="{{ pet.file.url }}" class="icon svg-size">
+                                        {{ pet.name }}
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse in cateDiv"
+                                 role="tabpanel" aria-labelledby="heading{{ forloop.counter }}">
+                                <div class="panel-body">
+                                    <ul class="list-group">
+                                        {% for cat in pet.categories.all %}
+                                            <a href="{% url "filter_category" pet.name cat.id %}">
+                                                <li class="list-group-item special-list-item">{{ cat.name }}</li>
+                                            </a>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+
+                </div>
+
+            </div>
+            <!--Categories End-->
+
+            <!--Cards-->
+            <div class="col-md-9">
+                {% if search %}
+                    <h4> Aranan : "<strong> {{ searched }} </strong>" <small>({{ product_count}} adet ürün bulunuyor.)</small> </h4>
+                {% else %}
+                    {% if is_category %}
+                        <h4> {{ category }} ürünleri <small>({{ product_count}} adet ürün bulunuyor.)</small> </h4>
+                    {% else %}
+                        <h4> <img class="fire-svg" src="{% static 'img/svg/fire.svg' %}"> <span>Son Eklenen Ürünler</span> </h4>
+                    {% endif %}
+                {% endif %}
+
+                <hr>
+                <div class="row">
+
+                    {% if products|length == 0 %}
+                        <h5 class="text-center">Aramanızla eşleşen bir ürün bulunamadı.</h5>
+                    {% endif %}
+
+                    {% for product in products %}
+                        <div class="col-md-3">
+                            <div class="card card-blog">
+                                <a href="{% url "detail" product.id %}">
+                                    <div class="card-image">
+                                        <img src="{{ product.file.url }}">
+                                        <div class="ripple-cont"></div>
+                                    </div>
+                                </a>
+                                <div class="table">
+                                    <h6 class="category textOrange"> {{ product.brand }}</h6>
+                                    <p class="card-p">{{ product.name|truncatechars:30 }}</p>
+                                </div>
+                                <button class="btn btn-orange f-left"
+                                        onclick="location.href='{% url "detail" product.id %}';">Detay
+                                </button>
+                                <span class="price f-right price-margin"> ₺{{ product.price }} </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            <!-- Cards End-->
+
+        </div>
+    </div>
+    <!--CARDS AND CATEGORIES DESKTOP END-->
+
+
+    <!--CARDS MOBILE-->
+    <div class="d-block d-sm-none">
+        <hr>
+
+        {% if search %}
+            <h5 class="text-center"> Aranan : "<strong>{{ searched }}</strong>"</h5>
+
+        {% else %}
+            {% if is_category %}
+                        <h4> {{ category }} ürünleri <small>({{ product_count}} adet ürün bulunuyor.)</small> </h4>
+                {% else %}
+            <h5 class="text-center"> Son Eklenen Ürünler</h5>
+                            {% endif %}
+
+        {% endif %}
+        <hr>
+        <div class="row">
+
+            {% if products|length == 0 %}
+                <h6 style="margin-left: 30px;">Aramanızla eşleşen bir ürün bulunamadı.</h6>
+            {% endif %}
+
+            {% for product in products %}
+                <div class="col-6">
+                    <div class="card card-blog">
+                        <div class="card-image">
+                            <a href="{% url "detail" product.id %}"> <img src="{{ product.file.url }}"
+                                                                          style="height: 191px; width: 160px;"></a>
+                            <div class="ripple-cont"></div>
+                        </div>
+                        <div class="table">
+                            <h6 class="category text-info">{{ product.brand }}</h6>
+                            <p class="m-card-p">{{ product.name|truncatechars:25 }}</p>
+                        </div>
+                        <a href="{% url "detail" product.id %}" class="btn btn-orange m-primary-button">Detay</a>
+                        <span class="m-price"> ₺{{ product.price }} </span>
+                    </div>
+                </div>
+            {% endfor %}
+
+
+        </div>
+    </div>
+    <!--CARDS MOBILE END-->
+
+    {% if not searched  %}
+        {% if  products.has_other_pages %}
+
+            <!--PAGINATION-->
+            <div class="row">
+                <div class="centered">
+                    <nav>
+                        <ul class="pagination pg-amber">
+                            <li class="page-item">
+                                {% if products.has_previous %}
+                                    <a class="page-link" id="prev" href="?page={{ products.previous_page_number }}"
+                                       aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                {% endif %}
+                            </li>
+                            {% for i in products.paginator.page_range %}
+                                {% if products.number == i %}
+                                    <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+
+                                {% endif %}
+                            {% endfor %}
+                            {% if products.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ products.next_page_number }}" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <!--PAGINATION END-->
+        {% endif %}
+    {% endif %}
+{% endblock %}

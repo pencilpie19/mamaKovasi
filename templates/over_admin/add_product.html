@@ -1,0 +1,118 @@
+{% extends "over_admin/layout.html" %}
+{% block title %} Yeni Ürün Ekle {% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $("#id_category").attr("disabled", "disabled")
+            $('#id_pet').change(function () {
+
+                var $this = $(this)
+                var $url = "{% url "get_relative_cat" 123 %}".replace("123", $this.val())
+                $.ajax({
+                    url: $url,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function (data) {
+                        $(".aman").html(data.html)
+                    }
+
+                })
+            })
+        })
+    </script>
+{% endblock %}
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Yeni Ürün Ekle</h1>
+                <hr>
+
+                <!--Table-->
+                <div class="card mb-4">
+                    <div class="col-lg-8">
+                        <div class="card border-0 rounded-lg">
+                            <div class="card-body">
+                                <form method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3">Hayvan Seç</label>
+                                        <div class="col-sm-9">
+                                            {{ form.pet }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3">Kategori Seç</label>
+                                        <div class="col-sm-9 aman">
+                                            {{ form.category }}
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3">Ürün Adı</label>
+                                        <div class="col-sm-9">
+                                            {{ form.name }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3">Açıklama</label>
+                                        <div class="col-sm-9">
+                                            {{ form.media }}
+                                            {{ form.detail }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3">Marka</label>
+                                        <div class="col-sm-9">
+                                            {{ form.brand }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3">Kilogram</label>
+                                        <div class="col-sm-9">
+                                            {{ form.weight }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3">Fiyat</label>
+                                        <div class="col-sm-9">
+                                            {{ form.price }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="" class="col-sm-3">Fotoğraf Seç</label>
+                                        <div class="col-sm-9">
+                                            <div class="form-group">
+                                                {{ form.file }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success float-right">Ekle</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--./Table-->
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Mama Kovası 2020 | Bu site <a
+                            href="https://www.pencilpie.com/" target="_blank"> PencilPie Development</a> tarafından
+                        hazırlanmıştır.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

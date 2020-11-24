@@ -1,0 +1,118 @@
+{% extends "over_admin/layout.html" %}
+{% load static %}
+{% block title %} Kontrol Paneli {% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+
+        })
+    </script>
+{% endblock %}
+{% block body %}
+    <!--Page Body-->
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Kontrol Paneli</h1>
+
+                {% if messages %}
+                    <div class="row">
+                        <div class="messages col-xl-6 col-md-6 col-sm-12">
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                <hr>
+                <!--Cards-->
+                <div class="row">
+                    <div class="col-xl-4 col-md-4">
+                        <div class="card bg-primary text-white mb-4">
+                            <div class="card-body">Ürün Sayısı
+                                <div class="card-number-text">{{ product_count }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4">
+                        <div class="card bg-success text-white mb-4">
+                            <div class="card-body">Kategori Sayısı
+                                <div class="card-number-text">{{ category_count }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-4">
+                        <div class="card bg-info text-white mb-4">
+                            <div class="card-body">Hayvan Türü Sayısı
+                                <div class="card-number-text">{{ pet_count }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--./Cards-->
+
+
+                <!--Table-->
+                <div class="card mb-4">
+                    <div class="card-header font-weight-bold">
+                        <i class="fas fa-table mr-1"></i>
+                        Anasayfa Kayan Fotoğraflar (1230x400px)
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Fotoğraf Sayısı</th>
+                                    <th>Fotoğraf Açıklamaları</th>
+                                    <th>Kaydet</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for photo in photos %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}. Fotoğraf <br> Geçerli Fotoğraf:
+                                            <a href="media/{{ photo.file }}">Tıklayın</a>
+                                        </td>
+                                        <form method="post" action="{% url "change_cover" photo.id %}"
+                                              enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <td>
+                                                <div class="form-group row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            {{ form.file }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-success">Kaydet</button>
+                                            </td>
+                                        </form>
+                                    </tr>
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--./Table-->
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Mama Kovası 2020 | Bu site <a
+                            href="https://www.pencilpie.com/" target="_blank"> PencilPie Development</a> tarafından
+                        hazırlanmıştır.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!--/.Page Body-->
+
+{% endblock %}

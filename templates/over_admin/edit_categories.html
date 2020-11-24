@@ -1,0 +1,55 @@
+{% extends "over_admin/layout.html" %}
+{% block title %} Kategori Düzenle {% endblock %}
+{% block script %}
+
+{% endblock %}
+
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Kategori Düzenle</h1> <!-- Kategori Düzenle-->
+                <hr>
+                <!--Table-->
+                <div class="card mb-4">
+                    <div class="col-lg-8">
+                        <div class="card border-0 rounded-lg">
+                            <div class="card-body">
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group row">
+                                        <label for="inputPassword" class="col-sm-2">Hayvan Seç</label>
+                                        <div class="col-sm-10">
+                                            {{ form.pet }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-2">Kategori Adı</label>
+                                        <div class="col-sm-10">
+                                            {{ form.name }}
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success float-right">Güncelle
+                                        <!-- Düzenle--> </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--./Table-->
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Mama Kovası 2020 | Bu site <a
+                            href="https://www.pencilpie.com/" target="_blank"> PencilPie Development</a> tarafından
+                        hazırlanmıştır.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

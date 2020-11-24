@@ -1,0 +1,87 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content=""/>
+    <meta name="author" content=""/>
+    <title> {% block title %} {% endblock %} / Admin Mama Kovası</title>
+    <link href={% static "over_admin/css/styles.css" %} rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js"
+            crossorigin="anonymous"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+    <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+
+    {% block script %}
+
+    {% endblock %}
+</head>
+<body>
+
+<!-- Navbar-->
+<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url "admin_index" %}">Mama Kovası Admin</a>
+    <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i>
+    </button>
+
+    <a href="{% url "index" %}"
+       class="btn btn-dark d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0 border-white">Siteye
+        Dön</a>
+</nav>
+<!-- /.Navbar-->
+
+<div id="layoutSidenav">
+    <!--Left Sidebar-->
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">GENEL</div>
+                    <a class="nav-link" href="{% url "admin_index" %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Kontrol Paneli
+                    </a>
+                    <div class="sb-sidenav-menu-heading">ÜRÜNLER VE KATEGORİLER</div>
+                    <a class="nav-link" href="{% url "admin_pets" %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-paw"></i></div>
+                        Ana Kategoriler
+                    </a>
+                    <a class="nav-link" href="{% url "admin_categories" %}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-layer-group"></i></div>
+                        Kategoriler
+                    </a>
+                    <a class="nav-link" href="{% url "admin_products" %}">
+                        <div class="sb-nav-link-icon"><i class="fab fa-codepen"></i></div>
+                        Ürünler
+                    </a>
+                    <div class="sb-sidenav-menu-heading">İLETİŞİM</div>
+                    <a class="nav-link" href="{% url "helps" %}">
+                        <div class="sb-nav-link-icon"><i class="far fa-address-book"></i></div>
+                        Bize Ulaşın
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                {{ request.user }}
+                <div class="small">olarak giriş yaptınız.</div>
+                <a href="{% url "logout" %}" class="btn btn-success mt-3 w-100">Çıkış Yap</a>
+
+            </div>
+        </nav>
+    </div>
+    <!--/.Left Sidebar-->
+
+    {% block body %}
+
+    {% endblock %}
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+<script src="{% static "over_admin/js/scripts.js" %}"></script>
+</body>
+</html>

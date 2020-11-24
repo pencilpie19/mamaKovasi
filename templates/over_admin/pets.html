@@ -1,0 +1,155 @@
+{% extends "over_admin/layout.html" %}
+{% block title %} Ana Kategoriler{% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "language": {
+                    "sDecimal": ",",
+                    "sEmptyTable": "Tabloda herhangi bir veri mevcut değil",
+                    "sInfo": "_TOTAL_ kayıttan _START_ - _END_ arasındaki kayıtlar gösteriliyor",
+                    "sInfoEmpty": "Kayıt yok",
+                    "sInfoFiltered": "(_MAX_ kayıt içerisinden bulunan)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "Sayfada _MENU_ kayıt göster",
+                    "sLoadingRecords": "Yükleniyor...",
+                    "sProcessing": "İşleniyor...",
+                    "sSearch": "Ara:",
+                    "sZeroRecords": "Eşleşen kayıt bulunamadı",
+                    "oPaginate": {
+                        "sFirst": "İlk",
+                        "sLast": "Son",
+                        "sNext": "Sonraki",
+                        "sPrevious": "Önceki"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": artan sütun sıralamasını aktifleştir",
+                        "sSortDescending": ": azalan sütun sıralamasını aktifleştir"
+                    },
+                    "select": {
+                        "rows": {
+                            "_": "%d kayıt seçildi",
+                            "0": "",
+                            "1": "1 kayıt seçildi"
+                        }
+                    }
+                }
+            })
+
+            var $window = $(this)
+            $window.on("click", "#petDelete", function (e) {
+                e.preventDefault()
+                var $this = $(this)
+                var $petid = $this.attr("petid")
+                var $url = "{% url "delete_pet" 123 %}".replace("123", $petid)
+                $('.areUsure').attr('href', $url)
+            })
+            $window.on('click', '.areUsure', function (e) {
+                e.preventDefault()
+                var $this = $(this)
+                var $url = $this.attr('href')
+                window.location.href = $url
+            })
+        })
+    </script>
+{% endblock %}
+{% block body %}
+
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Ana Kategoriler</h1>
+                <a class="btn btn-success mt-2" href="{% url "add_pet" %}">Ana Kategori
+                    Ekle</a>
+                <hr>
+
+                {% if messages %}
+                    <div class="row">
+                        <div class="messages col-xl-6 col-md-6 col-sm-12">
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!--Table-->
+                <div class="card mb-4">
+
+                    <div class="card-header">
+
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th class="w-10">#Sayı</th>
+                                    <th>Hayvan Adı</th>
+                                    <th>Düzenle</th>
+                                    <th>Sil</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for pet in pets %}
+                                    <tr>
+                                        <td>#{{ forloop.counter }}</td>
+                                        <td>{{ pet.name }}</td>
+                                        <td><a href="{% url "edit_pet" pet.id %}" class="btn btn-warning">Düzenle</a>
+                                        </td>
+                                        <td>
+                                            <button petid="{{ pet.id }}" id="petDelete" class="btn btn-danger"
+                                                    href="#deleteModal" class="trigger-btn"
+                                                    data-toggle="modal"> Sil
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--./Table-->
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Mama Kovası 2020 | Bu site <a
+                            href="https://www.pencilpie.com/" target="_blank"> PencilPie Development</a> tarafından
+                        hazırlanmıştır.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- Delete Modal HTML -->
+    <div id="deleteModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header flex-column">
+                    <div class="icon-box">
+                        <i class="far fa-trash-alt"></i>
+                    </div>
+                    <h4 class="modal-title w-100"> Emin misin ?</h4>
+                    <a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger">Dikkat! Bu kategoriyi silmeniz durumunda kategori ile ilişkili tüm alt
+                        kategoriler ve tüm ürünler silinir.</p>
+                    <p>Seçiminiz silinicek, bu geri getirilemez.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+                    <button type="button" class="btn btn-danger areUsure">Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.Delete Modal HTML -->
+{% endblock %}

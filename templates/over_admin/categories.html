@@ -1,0 +1,179 @@
+{% extends "over_admin/layout.html" %}
+{% block title %} Kategoriler {% endblock %}
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $.each($(".carma"), function (i, table) {
+                var $id = table.id
+
+                $("#" + $id + "").DataTable({
+                    "language": {
+                        "sDecimal": ",",
+                        "sEmptyTable": "Tabloda herhangi bir veri mevcut değil",
+                        "sInfo": "_TOTAL_ kayıttan _START_ - _END_ arasındaki kayıtlar gösteriliyor",
+                        "sInfoEmpty": "Kayıt yok",
+                        "sInfoFiltered": "(_MAX_ kayıt içerisinden bulunan)",
+                        "sInfoPostFix": "",
+                        "sInfoThousands": ".",
+                        "sLengthMenu": "Sayfada _MENU_ kayıt göster",
+                        "sLoadingRecords": "Yükleniyor...",
+                        "sProcessing": "İşleniyor...",
+                        "sSearch": "Ara:",
+                        "sZeroRecords": "Eşleşen kayıt bulunamadı",
+                        "oPaginate": {
+                            "sFirst": "İlk",
+                            "sLast": "Son",
+                            "sNext": "Sonraki",
+                            "sPrevious": "Önceki"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": artan sütun sıralamasını aktifleştir",
+                            "sSortDescending": ": azalan sütun sıralamasını aktifleştir"
+                        },
+                        "select": {
+                            "rows": {
+                                "_": "%d kayıt seçildi",
+                                "0": "",
+                                "1": "1 kayıt seçildi"
+                            }
+                        }
+                    }
+                })
+
+            })
+            var $window = $(this)
+            $window.on("click", ".cat_delete", function (e) {
+
+                e.preventDefault()
+                var $this = $(this)
+                var $petid = $this.attr("petid")
+                var $catid = $this.attr("catid")
+                var $url = "{% url "delete_category" 123 345 %}".replace("123", $petid).replace("345", $catid)
+                $('.areUsure').attr('href', $url)
+
+            })
+            $window.on('click', '.areUsure', function (e) {
+                e.preventDefault()
+                var $this = $(this)
+                var $url = $this.attr('href')
+                window.location.href = $url
+            })
+        })
+    </script>
+{% endblock %}
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Kategoriler</h1>
+                <button class="btn btn-success mt-2" onclick="location.href='{% url "add_category" %}'">Yeni Kategori
+                    Ekle
+                </button>
+                <hr>
+                {% if messages %}
+                    <div class="row">
+                        <div class="messages col-xl-6 col-md-6 col-sm-12">
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                <!--Table-->
+                <div class="card mb-4">
+
+                    <!--Search-->
+                    <div class="card-header">
+
+                    </div>
+                    <!--Search-->
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+                            {% for pet in pets %}
+                                <!--Pet Name end Categories 1-->
+                                <div class="card-header bg-info text-white font-weight-bold">
+                                    {{ pet.name }}
+                                </div>
+
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table carma" id="dataTable{{ forloop.counter }}"
+                                               width="100%" cellspacing="0">
+                                            <thead class="thead-dark">
+                                            <tr>
+                                                <th class="w-10">#Sayı</th>
+                                                <th>Kategori Adı</th>
+                                                <th>Düzenle</th>
+                                                <th>Sil</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for cat in pet.categories.all %}
+                                                <tr>
+                                                    <td>#{{ forloop.counter }}</td>
+                                                    <td>{{ cat.name }}</td>
+                                                    <td><a href="{% url "edit_category" pet.id cat.id %}"
+                                                           class="btn btn-warning">Düzenle</a></td>
+                                                    <td>
+                                                        <button petid="{{ pet.id }}" catid="{{ cat.id }}"
+                                                                class="btn btn-danger cat_delete" href="#deleteModal"
+                                                                data-toggle="modal"> Sil
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!--/.Pet Name end Categories 1-->
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--./Table-->
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Mama Kovası 2020 | Bu site <a
+                            href="https://www.pencilpie.com/" target="_blank"> PencilPie Development</a> tarafından
+                        hazırlanmıştır.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Delete Modal HTML -->
+    <div id="deleteModal" class="modal fade">
+        <div class="modal-dialog modal-confirm">
+            <div class="modal-content">
+                <div class="modal-header flex-column">
+                    <div class="icon-box">
+                        <i class="far fa-trash-alt"></i>
+                    </div>
+                    <h4 class="modal-title w-100"> Emin misin ?</h4>
+                    <a type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</a>
+                </div>
+                <div class="modal-body">
+                    <p class="text-danger">Dikkat! Bu alt kategoriyi silmeniz durumunda ilişkili tüm ürünler
+                        silinir.</p>
+                    <p>Seçiminiz silinicek, bu geri getirilemez.</p>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Vazgeç</button>
+                    <button type="button" class="btn btn-danger areUsure">Sil</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.Delete Modal HTML -->
+{% endblock %}

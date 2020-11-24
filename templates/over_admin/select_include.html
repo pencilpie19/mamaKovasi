@@ -1,0 +1,6 @@
+<select name="category" class="form-control" required="required" id="id_category">
+    <option value="" selected="">---------</option>
+    {% for cat in cats %}
+        <option value="{{ cat.id }}">{{ cat.name }} </option>
+    {% endfor %}
+</select>

@@ -1,0 +1,218 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}  {% endblock %}</title>
+    <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href={% static "css/mdb.min.css" %}>
+    <link rel="stylesheet" href={% static "css/style.css" %}>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    {% block script %}
+
+    {% endblock %}
+
+</head>
+
+<body>
+
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+
+        {% block justIndex %}
+
+        {% endblock %}
+
+        <!--Navbar-->
+        <div class="d-none d-sm-block margin-bottom-35">
+            <nav class="mb-1 navbar navbar-expand-lg navbar-dark orangeColor">
+
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url "index" %}"><strong> Anasayfa </strong>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url "contact" %}"><strong> Bize Ulaşın</strong></a>
+                    </li>
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link border" target="_blank" href="{% url "admin_index" %}"><strong> Yönetici Paneli</strong></a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <form class="form-inline my-1">
+                    <div class="">
+                        <input class="form-control navbar-textbox" type="text" name="search" placeholder="Ara..."
+                               aria-label="Ara...">
+                    </div>
+                    <button class="btn btn-white" type="submit">Ara</button>
+                </form>
+
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent-4">
+                    <ul class="navbar-nav ml-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fab fa-instagram"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fab fa-twitter"></i></a>
+                        </li>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+        </div>
+        <!--/.Navbar-->
+
+        <!--Navbar Mobile-->
+        <div class="colorWhite">
+
+            <div class="d-block d-sm-none margin-bottom-20">
+
+                <nav class="navbar navbar-light orangeColor lighten-4 ">
+
+                    <a class="navbar-brand colorWhite bold-text" href="#">Menü</a>
+
+                    <button class="navbar-toggler toggler-example" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent1"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"><span class="dark-blue-text"><i
+                            class="fas fa-bars fa-1x colorWhite"></i></span></button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent1">
+
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link colorWhite" href="{% url "index" %}"><strong> Anasayfa </strong>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-block d-sm-none colorWhite" href="{% url "categories" %}"> <strong>
+                                    Kategoriler
+                                </strong>
+                                </a>
+                            </li>
+                            {% if request.user.is_authenticated %}
+                                <li class="nav-item">
+                                    <a class="nav-link colorWhite border" href="{% url "admin_index" %}"><strong> Yönetici
+                                        Paneli</strong></a>
+                                </li>
+                            {% endif %}
+                            <li class="nav-item">
+                                <a class="nav-link colorWhite " href="{% url "contact" %}"><strong> Bize Ulaşın</strong></a>
+                            </li>
+                        </ul>
+
+
+                        <form class="form-inline my-1">
+                            <div class="">
+                                <input class="form-control navbar-textbox-m" name="search" type="text" placeholder="Ara..."
+                                       aria-label="Ara...">
+                            </div>
+                            <button class="btn btn-white" type="submit">Ara</button>
+                        </form>
+
+                    </div>
+
+
+                </nav>
+
+            </div>
+
+        </div>
+        <!--/.Navbar Mobile-->
+
+        {% block body %}
+
+        {% endblock %}
+
+
+        <!--Footer-->
+        <div class="container-fluid pb-0 mb-0 justify-content-center text-light">
+            <footer>
+                <div class="row my-5 justify-content-center py-5">
+                    <div class="col-11">
+                        <div class="row ">
+                            <div class="col-xl-8 col-md-4 col-sm-4 col-12 my-auto mx-auto a">
+                                <h3 class="text-muted mb-md-0 mb-5 bold-text">Mama Kovası.</h3>
+                            </div>
+                            <div class="col-xl-2 col-md-4 col-sm-4 col-12">
+                                <h6 class="mb-3 mb-lg-4 bold-text text-bottom "><b>MENU</b></h6>
+                                <ul class="list-unstyled">
+                                    <a href="{% url "index" %}">
+                                        <li>Anasayfa</li>
+                                    </a>
+                                    <a href="{% url "categories" %}">
+                                        <li class="d-block d-sm-none">Kategoriler</li>
+                                    </a>
+                                    <a href="{% url "contact" %}">
+                                        <li>Bize Ulaşın</li>
+                                    </a>
+                                </ul>
+                            </div>
+                            <div class="col-xl-2 col-md-4 col-sm-4 col-12">
+                                <h6 class="mb-3 mb-lg-4 text-muted bold-text mt-sm-0 mt-5 text-bottom"><b>ADRES</b></h6>
+                                <p class="mb-1 white-text">Buraya Adres Bilgileri Girilecek</p>
+                                <p class="white-text">Numara 5/5</p>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-xl-8 col-md-4 col-sm-4 col-auto my-md-0 mt-5 order-sm-1 order-3 align-self-end">
+                                <small class="rights"><span>&#174;</span> 2020 Tüm hakları
+                                    saklıdır.</small>
+                                <small class="rights"> Bu site <a href="https://www.pencilpie.com/" target="_blank">PencilPie
+                                    Development</a> Tarafından Geliştirilmiştir.</small>
+                            </div>
+                            <div class="col-xl-2 col-md-4 col-sm-4 col-auto order-1 align-self-end white-text">
+                                <h6 class="mt-55 mt-2 text-muted bold-text text-bottom"><b>TELEFON</b></h6>
+                                <small> <span><i
+                                        class="fas fa-phone"></i> </span>0512 125 87 65</small>
+                            </div>
+                            <div class="col-xl-2 col-md-4 col-sm-4 col-auto order-2 align-self-end mt-3 ">
+                                <h6 class="text-muted bold-text text-bottom"><b>SOSYAL MEDYA</b></h6><small>
+                                <a href="#"><i class="fab fa-facebook-square social-contact-icon"></i></a>
+                                <a href="#"><i class="fab fa-instagram social-contact-icon"></i></a>
+                                <a href="#"><i class="fab fa-twitter-square social-contact-icon"></i></a>
+                            </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!--./Footer-->
+
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+
+<script type="text/javascript" src={% static "js/jquery.min.js" %}></script>
+<script type="text/javascript" src={% static "js/popper.min.js" %}></script>
+<script type="text/javascript" src={% static "js/bootstrap.min.js" %}></script>
+<script type="text/javascript" src={% static "js/mdb.min.js" %}></script>
+<script type="text/javascript" src={% static "js/pagination.js" %}></script>
+<script type="text/javascript" src={% static "js/contact.js" %}></script>
+
+</body>
+
+</html>

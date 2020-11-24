@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giriş Yap / Mama Kovası Admin Paneli</title>
+    <link rel="stylesheet" type="text/css" href={% static "over_admin/css/admin-login.css" %}>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-title">
+                <p>ADMIN PANEL</p>
+                <hr>
+            </div>
+
+            <div class="col-lg-12 login-key">
+                <i class="fa fa-key" aria-hidden="true"></i>
+            </div>
+            <div class="col-lg-12 login-title">
+                <small>Mama Kovası</small>
+            </div>
+
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label class="form-control-label">KULLANICI ADI</label>
+                            {{ form.username }}
+                        </div>
+                        <div class="form-control-group">
+                            <label class="form-control-label">ŞİFRE</label>
+                            {{ form.password }}
+
+                        </div>
+
+                        <div class="col-lg-12 loginbttm">
+                            {% if form.errors %}
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <div class="col-lg-8 login-btm login-text error">
+                                            <i class="fas fa-exclamation-circle error"></i> {{ error|escape }}
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
+                                {% for error in form.non_field_errors %}
+                                    <div class="col-lg-8 login-btm login-text error">
+                                        <i class="fas fa-exclamation-circle error"></i> {{ error|escape }}
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            <div class="col-lg-4 login-btm login-button">
+                                <button type="submit" class="btn btn-primary login-btn">GİRİŞ YAP</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-2"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

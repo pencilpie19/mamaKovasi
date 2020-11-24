@@ -1,0 +1,36 @@
+{% extends "over_admin/layout.html" %}
+{% block title %} Bize Ulaşın Detay {% endblock %}
+{% block script %}
+
+{% endblock %}
+{% block body %}
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid">
+                <h1 class="mt-4">Bize Ulaşın</h1>
+                <hr>
+                <!--Table-->
+                <div class="card mb-4">
+                    <div class="card-body">
+
+                        <p><strong> Ad Soyad:</strong>{{ help.name }}</p>
+                        <p><strong> Email: </strong>{{ help.email }}</p>
+                        <p><strong> Mesaj: </strong>{{ help.message }}</p>
+                        <p><strong> Gönderilme Zamanı: </strong> {{ help.created_date }}</p>
+                    </div>
+                </div>
+                <!--./Table-->
+            </div>
+        </main>
+        <footer class="py-4 bg-light mt-auto">
+            <div class="container-fluid">
+                <div class="d-flex align-items-center justify-content-between small">
+                    <div class="text-muted">Copyright &copy; Mama Kovası 2020 | Bu site <a
+                            href="https://www.pencilpie.com/" target="_blank"> PencilPie Development</a> tarafından
+                        hazırlanmıştır.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}
