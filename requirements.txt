@@ -2,3 +2,4 @@ django
 Pillow
 django_cleanup
 django-ckeditor
+django-crispy-forms
