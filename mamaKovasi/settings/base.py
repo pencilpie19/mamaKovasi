@@ -24,7 +24,7 @@ SECRET_KEY = 'ydnbkd(+jv^v7$d%j3#+%r-q!rl1cz$361$jiz22-5ro_f)vdl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = ["127.0.0.1","68.183.66.88","mamakovasi.com","www.mamakovasi.com"]
+ALLOWED_HOSTS = ["127.0.0.1","134.209.80.44","mamakovasi.com","www.mamakovasi.com"]
 
 
 # Application definition
