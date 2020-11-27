@@ -7,7 +7,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('pencilpieAdmin/', admin.site.urls),
     path('login',over.loginU,name="login"),
     path('logout',over.logoutU,name="logout"),
     path('',views.index,name="index"),
