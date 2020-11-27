@@ -1,6 +1,6 @@
 from django.contrib import admin
 from main.models import Pet, Category, Product, Help
-
+admin.site.site_header="PencilPie Web Hizmetleri Yönetimi"
 # Register your models here.
 admin.site.register(Pet)
 admin.site.register(Category)
