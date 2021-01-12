@@ -17,7 +17,7 @@
 
                         <div class="col-12 mb-0">
                             <figure class="view overlay rounded z-depth-1 main-img zoom ">
-                                <img src="{{product.file.url}}" class="img-fluid z-depth-0 ">
+                                <img src="{{ product.file.url }}" class="img-fluid z-depth-0 ">
                                 </a>
                             </figure>
                         </div>
@@ -86,8 +86,10 @@
 
                             <!--Footer-->
                             <div class="modal-footer justify-content-center">
-                                <a type="button" class="btn btn-primary" href="https://api.whatsapp.com/send?phone=905526156262" target="_blank"> +90 552 615 62 62<i
-                                        class="far fa-gem ml-1 text-white"></i></a>
+                                <a type="button" class="btn btn-primary"
+                                   href="https://api.whatsapp.com/send?phone=905526156262" target="_blank"> +90 552 615
+                                    62 62<i
+                                            class="far fa-gem ml-1 text-white"></i></a>
                                 <a type="button" class="btn btn-outline-danger waves-effect"
                                    data-dismiss="modal">Vazgeç</a>
                             </div>
@@ -139,7 +141,7 @@
                     <div class="col-md-3">
                         <div class="card card-blog">
                             <a href="{% url "detail" pro.id %}">
-                                    <div class="card-image">
+                                <div class="card-image">
                                     <img src="{{ pro.file.url }}">
                                     <div class="ripple-cont"></div>
                                 </div>
